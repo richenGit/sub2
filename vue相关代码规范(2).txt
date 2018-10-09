@@ -1,0 +1,111 @@
+以下内容详细可参考：https://cn.vuejs.org/v2/style-guide
+
+1. 组件命名统一为大写开头(PascalCase)
+	(a) 单词大写开头对于代码编辑器的自动补全最为友好，混用文件命名方式有的时候会导致大小写不敏感的文件系统的问题
+	(b) 基础组件以base开头，如BaseButton.vue
+	(c) 全局组件以app开头，AppButton.vue
+	(d) 以父组件为开头命名,2 到 3 个单词,具有可读性
+	好处：
+		i.当你在编辑器中以字母顺序排序时，你的应用的基础组件会全部列在一起，这样更容易识别。
+		ii.因为组件名应该始终是多个单词，所以这样做可以避免在包裹简单组件时随意选择前缀 (比如 MyButton、VueButton)
+
+2. Prop 定义尽量声明类型
+	(a) 它们写明了组件的 API，所以很容易看懂组件的用法；
+	(b) 在开发环境下，如果向一个组件提供格式不正确的 prop，Vue 将会告警，以帮助你捕获潜在的错误来源。
+	(c) 在 JavaScript 中更自然的是 camelCase。而在 HTML 中则是 kebab-case 
+		如：
+			props: {
+			  greetingText: String
+			}
+			<welcome-message greeting-text="hi"></welcome-message>
+	(d) 例子：
+		props: {
+		 	status: String
+		}，
+		更好的写法：
+		props: {
+			status: {
+			    type: String,
+			    required: true,//必填
+			    validator: function (value) {//匹配验证
+				    return [
+				        'syncing',
+				        'synced',
+				        'version-conflict',
+				        'error'
+				    ].indexOf(value) !== -1
+			    }
+			 }
+		}
+
+
+3. 不要把 v-if 和 v-for 同时用在同一个元素上。
+	(a) v-for 比 v-if 具有更高的优先级
+	(b) 可以把v-if放在父元素
+	(c) 写过滤函数
+		<ul>
+		  	<li v-for="user in activeUsers" :key="user.id" >
+		    	{{ user.name }}
+		 	 </li>
+		</ul>
+		computed: {
+			 activeUsers: function () {
+			    return this.users.filter(function (user) {
+			    	return user.isActive
+			    })
+			 }
+		}
+
+4. 
+	在jsx ：import myComponent from './MyComponent.vue'
+	在dom模版中： <my-component></my-component>
+	组件名：name: 'MyComponent'
+
+5. 做备注，如data定义的变量作用，html功能备注，methods函数作用
+
+6. 组件结构化(顺序)
+	// 不要忘记了 name 属性
+    name: 'RangeSlider',
+    // 使用组件 mixins 共享通用功能
+    mixins: [],
+    // 组成新的组件
+    extends: {},
+    // 组件属性、变量
+    props: {
+      bar: {}, // 按字母顺序
+      foo: {},
+      fooBar: {},
+    },
+    // 变量
+    data() {},
+    computed: {},
+    // 使用其它组件
+    components: {},
+    // 方法
+    watch: {},
+    methods: {},
+    // 生命周期函数
+   	beforeCreate
+	created
+	beforeMount
+	mounted
+	beforeUpdate
+	updated
+	activated
+	deactivated
+	beforeDestroy
+	destroyed
+
+6.避免 this.$parent，谨慎使用 this.$refs(https://github.com/pablohpsilva/vuejs-component-style-guide/blob/master/README-CN.md)
+
+
+
+
+
+
+
+
+
+
+
+
